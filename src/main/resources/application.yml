@@ -1,0 +1,20 @@
+### Common-setting-start ####
+server:
+  port: 8086
+  servlet:
+    context-path: /PreprodCSB/ewallet/
+#cache:
+#  redis:
+#    host: 'localhost'
+
+grpc:
+  server:
+    port: -1 # disable grpc-server
+  client:
+    card-service-atomic:
+#      address: 'static://127.0.0.1:9090'
+      address: 'card-management-orchestrator:9090'
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
+

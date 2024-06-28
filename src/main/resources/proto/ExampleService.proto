@@ -1,0 +1,25 @@
+syntax = 'proto3';
+package com.example.server;
+option java_multiple_files = true;
+
+service Test {
+  rpc test(Request) returns (Response);
+}
+
+
+message Request{
+  string requestId = 1;
+  string requestDateTime = 2;
+  string function = 3;
+
+  // Add other fields as needed...
+}
+
+message Response{
+  string requestId = 1;
+  string requestDateTime = 2;
+  string function = 3;
+  string responseCode = 4;
+  string description = 5;
+  // Add other fields as needed...
+}

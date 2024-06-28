@@ -1,0 +1,125 @@
+<configuration scan="true">
+    <springProperty scope="context" name="CHANNEL" source="appSetting.Monitor.Channel"></springProperty>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="com.ewallet.lib.common.MaskingPatternLayout">
+                <maskPattern>\"SSN\"\s*:\s*\"(.*?)\"</maskPattern> <!-- SSN JSON pattern -->
+                <maskPattern>\"legalIdType\"\s*:\s*\"(.*?)\"</maskPattern> <!-- Address JSON pattern -->
+                <maskPattern>legalIdType='(.*?)'</maskPattern> <!-- Address JSON pattern -->
+                <maskPattern>(\d+\.\d+\.\d+\.\d+)</maskPattern> <!-- Ip address IPv4 pattern -->
+                <maskPattern>(\w+@\w+\.\w+)</maskPattern> <!-- Email pattern -->
+                <hidePattern>\"fileContent\"\s*:\s*\{(.*?)\}</hidePattern>
+
+                <maskPattern>(?i:\"cvv\"\s*:\s*\"(.*?)\")</maskPattern>
+                <maskPattern>(?i:\"cvnumber\"\s*:\s*\"(.*?)\")</maskPattern>
+                <maskPattern>(?i:\"cvv2\"\s*:\s*\"(.*?)\")</maskPattern>
+                <maskPattern>(?i:\"cardnumber\"\s*:\s*"\d{6}(.*?)\d{4}")</maskPattern>
+                <hidePattern>(?i:\"passwordoffset\"\s*:\s*\"(.*?)\")</hidePattern>
+                <hidePattern>(?i:\"passwordencrypted\"\s*:\s*\"(.*?)\")</hidePattern>
+                <hidePattern>(?i:\"pkcs1parameter\"\s*:\s*\"(.*?)\")</hidePattern>
+                <maskPattern>(?i:\"oldcardnumber\"\s*:\s*"\d{6}(.*?)\d{4}")</maskPattern>
+                <maskPattern>(?i:\"newcardnumber\"\s*:\s*"\d{6}(.*?)\d{4}")</maskPattern>
+                <maskPattern>(?i:\"expirydate\"\s*:\s*\"(.*?)\")</maskPattern>
+                <maskPattern>(?i:\"expire\"\s*:\s*\"(.*?)\")</maskPattern>
+                <hidePattern>(?i:\"pinencrypted\"\s*:\s*\"(.*?)\")</hidePattern>
+                <hidePattern>(?i:\"authcode\"\s*:\s*\"(.*?)\")</hidePattern>
+                <hidePattern>(?i:\"rn\"\s*:\s*\"(.*?)\")</hidePattern>
+                <hidePattern>(?i:\"billdetails\"\s*:\s*\"(.*?)\")</hidePattern>
+                <hidePattern>(?i:\"suggestionsummary\"\s*:\s*\"(.*?)\")</hidePattern>
+                <hidePattern>(?i:\"titlehighlight\"\s*:\s*\"(.*?)\")</hidePattern>
+                <hidePattern>(?i:\"suggestionimage\"\s*:\s*\"(.*?)\")</hidePattern>
+                <hidePattern>(?i:\"inactiveiconurl\"\s*:\s*\"(.*?)\")</hidePattern>
+                <hidePattern>(?i:\"cardimageurl\"\s*:\s*\"(.*?)\")</hidePattern>
+                <hidePattern>(?i:\"title\"\s*:\s*\"(.*?)\")</hidePattern>
+                <hidePattern>(?i:\"featureimage\"\s*:\s*\"(.*?)\")</hidePattern>
+                <hidePattern>(?i:\"qrstream\"\s*:\s*\"(.*?)\")</hidePattern>
+                <hidePattern>(?i:\"staticqrdata\"\s*:\s*\"(.*?)\")</hidePattern>
+                <hidePattern>(?i:\"passwordoffset\"\s*:\s*\"(.*?)\")</hidePattern>
+                <hidePattern>(?i:\"sessionid\"\s*:\s*\"(.*?)\")</hidePattern>
+                <hidePattern>(?i:\"sessionkey\"\s*:\s*\"(.*?)\")</hidePattern>
+                <hidePattern>(?i:\"pinpublickeyexponent\"\s*:\s*\"(.*?)\")</hidePattern>
+                <hidePattern>(?i:\"pinublickeymodulus\"\s*:\s*\"(.*?)\")</hidePattern>
+                <hidePattern>(?i:\"card_track2\"\s*:\s*\"(.*?)\")</hidePattern>
+                <hidePattern>(?i:\"CardToken\"\s*:\s*\"(.*?)\")</hidePattern>
+                <hidePattern>(?i:\"mPassEncrypted\"\s*:\s*\"(.*?)\")</hidePattern>
+
+                <Pattern>
+                    %d{ISO8601} [%level] [${CHANNEL}] %msg - [%C.%M\(%L\)] %n%throwable
+                </Pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+    <appender name="gelf-jms" class="com.ewallet.lib.common.AsyncQueueAppender">
+        <brokerURL>${QUEUE_HOST}</brokerURL>
+        <corePoolSize>${CORE_POOL_SIZE}</corePoolSize>
+        <maximumPoolSize>${MAXIMUM_POOL_SIZE}</maximumPoolSize>
+        <queueSize>${QUEUE_SIZE}</queueSize>
+        <queueName>${QUEUE_NAME}</queueName>
+        <layout class="com.ewallet.lib.common.MaskingPatternLayout">
+            <maskPattern>\"SSN\"\s*:\s*\"(.*?)\"</maskPattern> <!-- SSN JSON pattern -->
+            <maskPattern>\"legalIdType\"\s*:\s*\"(.*?)\"</maskPattern> <!-- Address JSON pattern -->
+            <maskPattern>legalIdType='(.*?)'</maskPattern> <!-- Address JSON pattern -->
+            <maskPattern>(\d+\.\d+\.\d+\.\d+)</maskPattern> <!-- Ip address IPv4 pattern -->
+            <maskPattern>(\w+@\w+\.\w+)</maskPattern> <!-- Email pattern -->
+            <hidePattern>\"fileContent\"\s*:\s*\{(.*?)\}</hidePattern>
+
+            <maskPattern>(?i:\"cvv\"\s*:\s*\"(.*?)\")</maskPattern>
+            <maskPattern>(?i:\"cvnumber\"\s*:\s*\"(.*?)\")</maskPattern>
+            <maskPattern>(?i:\"cvv2\"\s*:\s*\"(.*?)\")</maskPattern>
+            <maskPattern>(?i:\"cardnumber\"\s*:\s*"\d{6}(.*?)\d{4}")</maskPattern>
+            <hidePattern>(?i:\"passwordoffset\"\s*:\s*\"(.*?)\")</hidePattern>
+            <hidePattern>(?i:\"passwordencrypted\"\s*:\s*\"(.*?)\")</hidePattern>
+            <hidePattern>(?i:\"pkcs1parameter\"\s*:\s*\"(.*?)\")</hidePattern>
+            <maskPattern>(?i:\"oldcardnumber\"\s*:\s*"\d{6}(.*?)\d{4}")</maskPattern>
+            <maskPattern>(?i:\"newcardnumber\"\s*:\s*"\d{6}(.*?)\d{4}")</maskPattern>
+            <maskPattern>(?i:\"expirydate\"\s*:\s*\"(.*?)\")</maskPattern>
+            <maskPattern>(?i:\"expire\"\s*:\s*\"(.*?)\")</maskPattern>
+            <hidePattern>(?i:\"pinencrypted\"\s*:\s*\"(.*?)\")</hidePattern>
+            <hidePattern>(?i:\"authcode\"\s*:\s*\"(.*?)\")</hidePattern>
+            <hidePattern>(?i:\"rn\"\s*:\s*\"(.*?)\")</hidePattern>
+            <hidePattern>(?i:\"billdetails\"\s*:\s*\"(.*?)\")</hidePattern>
+            <hidePattern>(?i:\"suggestionsummary\"\s*:\s*\"(.*?)\")</hidePattern>
+            <hidePattern>(?i:\"titlehighlight\"\s*:\s*\"(.*?)\")</hidePattern>
+            <hidePattern>(?i:\"suggestionimage\"\s*:\s*\"(.*?)\")</hidePattern>
+            <hidePattern>(?i:\"inactiveiconurl\"\s*:\s*\"(.*?)\")</hidePattern>
+            <hidePattern>(?i:\"cardimageurl\"\s*:\s*\"(.*?)\")</hidePattern>
+            <hidePattern>(?i:\"title\"\s*:\s*\"(.*?)\")</hidePattern>
+            <hidePattern>(?i:\"featureimage\"\s*:\s*\"(.*?)\")</hidePattern>
+            <hidePattern>(?i:\"qrstream\"\s*:\s*\"(.*?)\")</hidePattern>
+            <hidePattern>(?i:\"staticqrdata\"\s*:\s*\"(.*?)\")</hidePattern>
+            <hidePattern>(?i:\"passwordoffset\"\s*:\s*\"(.*?)\")</hidePattern>
+            <hidePattern>(?i:\"sessionid\"\s*:\s*\"(.*?)\")</hidePattern>
+            <hidePattern>(?i:\"sessionkey\"\s*:\s*\"(.*?)\")</hidePattern>
+            <hidePattern>(?i:\"pinpublickeyexponent\"\s*:\s*\"(.*?)\")</hidePattern>
+            <hidePattern>(?i:\"pinublickeymodulus\"\s*:\s*\"(.*?)\")</hidePattern>
+            <hidePattern>(?i:\"card_track2\"\s*:\s*\"(.*?)\")</hidePattern>
+            <hidePattern>(?i:\"CardToken\"\s*:\s*\"(.*?)\")</hidePattern>
+            <Pattern>
+                 %d{HH:mm:ss:SSS} [%level] [${CHANNEL}] %msg - [%C.%M\(%L\)] %n%throwable
+            </Pattern>
+        </layout>
+    </appender>
+
+    <appender name="async" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="CONSOLE"/>
+        <discardingThreshold>0</discardingThreshold>
+        <includeCallerData>true</includeCallerData>
+    </appender>
+
+    <logger name="io.netty.util.internal.logging" level="OFF"/>
+    <logger name="io.lettuce.core.protocol.ReconnectionHandler" level="OFF" />
+
+    <logger name="com.ewallet" level="all" additivity="false">
+        <appender-ref ref="async"/>
+<!--        <appender-ref ref="gelf-jms"/>-->
+    </logger>
+
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
+    <root level="info">
+        <appender-ref ref="async"/>
+<!--        <appender-ref ref="gelf-jms"/>-->
+    </root>
+
+</configuration>
